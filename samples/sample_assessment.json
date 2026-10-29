@@ -1,0 +1,55 @@
+{
+  "target": "API-Sentinel demo lab API (127.0.0.1:8765)",
+  "tester": "Jatin Patidar",
+  "created": "2026-10-28T00:00:00Z",
+  "test_cases": [
+    {
+      "check_id": "AUTH-01",
+      "check_title": "Endpoint rejects requests with no credentials",
+      "category": "Authentication",
+      "owasp": "API2:2023",
+      "endpoint": "GET /orders/1",
+      "expected": "401 Unauthorized with no Authorization header",
+      "actual": "401 Unauthorized",
+      "result": "pass",
+      "evidence": "curl -i http://127.0.0.1:8765/orders/1 -> HTTP/1.0 401",
+      "recorded_at": "2026-10-28T00:00:00Z"
+    },
+    {
+      "check_id": "BOLA-01",
+      "check_title": "Requesting another user's object ID returns 403/404, not the object",
+      "category": "Broken Object Level Authorization",
+      "owasp": "API1:2023",
+      "endpoint": "GET /orders/1",
+      "expected": "403 Forbidden when Bob's token requests Alice's order (owner_id=1)",
+      "actual": "200 OK, full order body returned: {\"order_id\":1,\"owner_id\":1,\"item\":\"widget\",\"total\":19.99}",
+      "result": "fail",
+      "evidence": "curl -H 'Authorization: Bearer bob-token' http://127.0.0.1:8765/orders/1 -> HTTP/1.0 200, body includes owner_id=1 while caller is user_id=2",
+      "recorded_at": "2026-10-28T00:00:00Z"
+    },
+    {
+      "check_id": "BFLA-01",
+      "check_title": "Low-privilege account cannot call admin/staff-only endpoints",
+      "category": "Broken Function Level Authorization",
+      "owasp": "API5:2023",
+      "endpoint": "GET /admin/stats",
+      "expected": "403 Forbidden for a non-admin token",
+      "actual": "200 OK, admin stats returned to a 'user' role token",
+      "result": "fail",
+      "evidence": "curl -H 'Authorization: Bearer bob-token' http://127.0.0.1:8765/admin/stats -> HTTP/1.0 200",
+      "recorded_at": "2026-10-28T00:00:00Z"
+    },
+    {
+      "check_id": "MISCONFIG-02",
+      "check_title": "CORS does not reflect arbitrary Origin with credentials allowed",
+      "category": "Security Misconfiguration",
+      "owasp": "API8:2023",
+      "endpoint": "GET /me",
+      "expected": "No Access-Control-Allow-Origin reflection for an arbitrary Origin",
+      "actual": "Demo API sends no CORS headers at all (not applicable for this lab's minimal server)",
+      "result": "not_applicable",
+      "evidence": "demo_api.py has no CORS handling code path",
+      "recorded_at": "2026-10-28T00:00:00Z"
+    }
+  ]
+}

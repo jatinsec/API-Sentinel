@@ -1,0 +1,89 @@
+{
+  "name": "API-Sentinel Default Checklist",
+  "based_on": "OWASP API Security Top 10 (2023)",
+  "categories": [
+    {
+      "id": "AUTH",
+      "name": "Authentication",
+      "checks": [
+        {"id": "AUTH-01", "title": "Endpoint rejects requests with no credentials", "owasp": "API2:2023"},
+        {"id": "AUTH-02", "title": "Endpoint rejects expired/invalid tokens", "owasp": "API2:2023"},
+        {"id": "AUTH-03", "title": "No credentials or secrets exposed in URLs, logs, or error messages", "owasp": "API2:2023"},
+        {"id": "AUTH-04", "title": "Password/credential reset flow cannot be abused for account takeover", "owasp": "API2:2023"}
+      ]
+    },
+    {
+      "id": "BOLA",
+      "name": "Broken Object Level Authorization",
+      "checks": [
+        {"id": "BOLA-01", "title": "Requesting another user's object ID returns 403/404, not the object", "owasp": "API1:2023"},
+        {"id": "BOLA-02", "title": "Object IDs are not sequential/guessable in a way that trivializes enumeration", "owasp": "API1:2023"},
+        {"id": "BOLA-03", "title": "Nested/related resources (e.g. /users/1/orders/2) enforce ownership on BOTH ids", "owasp": "API1:2023"}
+      ]
+    },
+    {
+      "id": "BOPLA",
+      "name": "Broken Object Property Level Authorization",
+      "checks": [
+        {"id": "BOPLA-01", "title": "Response does not include fields the caller shouldn't see (mass assignment on read)", "owasp": "API3:2023"},
+        {"id": "BOPLA-02", "title": "Write endpoints reject client-supplied privileged fields (role, isAdmin, price, ownerId)", "owasp": "API3:2023"}
+      ]
+    },
+    {
+      "id": "RATE",
+      "name": "Unrestricted Resource Consumption",
+      "checks": [
+        {"id": "RATE-01", "title": "Endpoint enforces a rate limit per account/IP on sensitive actions", "owasp": "API4:2023"},
+        {"id": "RATE-02", "title": "Pagination/list endpoints cap page size (no unbounded export)", "owasp": "API4:2023"}
+      ]
+    },
+    {
+      "id": "BFLA",
+      "name": "Broken Function Level Authorization",
+      "checks": [
+        {"id": "BFLA-01", "title": "Low-privilege account cannot call admin/staff-only endpoints", "owasp": "API5:2023"},
+        {"id": "BFLA-02", "title": "HTTP method tampering (GET-only endpoint tried with PUT/DELETE) does not bypass auth", "owasp": "API5:2023"}
+      ]
+    },
+    {
+      "id": "BUSLOGIC",
+      "name": "Business Logic Abuse",
+      "checks": [
+        {"id": "BUSLOGIC-01", "title": "Workflow steps cannot be skipped or replayed out of order (e.g. pay after ship)", "owasp": "API6:2023"},
+        {"id": "BUSLOGIC-02", "title": "Negative quantities / negative prices / currency downgrade are rejected server-side", "owasp": "API6:2023"}
+      ]
+    },
+    {
+      "id": "SSRF",
+      "name": "Server Side Request Forgery",
+      "checks": [
+        {"id": "SSRF-01", "title": "URL-accepting parameters (webhooks, image fetch, import-by-URL) block internal/metadata IPs", "owasp": "API7:2023"}
+      ]
+    },
+    {
+      "id": "MISCONFIG",
+      "name": "Security Misconfiguration",
+      "checks": [
+        {"id": "MISCONFIG-01", "title": "Verbose stack traces / debug mode disabled in production responses", "owasp": "API8:2023"},
+        {"id": "MISCONFIG-02", "title": "CORS does not reflect arbitrary Origin with credentials allowed", "owasp": "API8:2023"},
+        {"id": "MISCONFIG-03", "title": "Security headers present (HSTS, X-Content-Type-Options, CSP as applicable)", "owasp": "API8:2023"}
+      ]
+    },
+    {
+      "id": "INVENTORY",
+      "name": "Improper Inventory Management",
+      "checks": [
+        {"id": "INVENTORY-01", "title": "Old/deprecated API versions are not still reachable without the same controls", "owasp": "API9:2023"},
+        {"id": "INVENTORY-02", "title": "Non-production/staging hosts are not silently in scope and are not weaker than prod", "owasp": "API9:2023"}
+      ]
+    },
+    {
+      "id": "INJECTION",
+      "name": "Unsafe Consumption of APIs / Injection",
+      "checks": [
+        {"id": "INJECTION-01", "title": "Input is validated/escaped server-side, not just client-side", "owasp": "API10:2023"},
+        {"id": "INJECTION-02", "title": "Data pulled from third-party/upstream APIs is treated as untrusted before use", "owasp": "API10:2023"}
+      ]
+    }
+  ]
+}
